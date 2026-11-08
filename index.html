@@ -91,7 +91,7 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
     <p class="lede">Type a command, or tap one below, to learn more about me.</p>
     <div class="term">
       <div class="tout" id="tout" aria-live="polite"></div>
-      <label class="tline"><span aria-hidden="true">$</span><input id="tin" type="text" aria-label="Type a command" placeholder="type help and press Enter" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+      <label class="tline"><span aria-hidden="true" id="prompt"></span><input id="tin" type="text" aria-label="Type a command" placeholder="type help and press Enter" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
     </div>
     <ul class="chips" id="cmds" style="margin-top:1rem" aria-label="Commands"></ul>
   </section>
@@ -145,6 +145,9 @@ const $ = id => document.getElementById(id);
 const el = (tag, props = {}, kids = []) => { const n = document.createElement(tag); Object.assign(n, props); kids.forEach(k => n.append(k)); return n; };
 const P = PROFILE;
 
+// Terminal prompt symbol: change it here and it updates everywhere
+const PROMPT = "→";
+
 document.title = P.name + " – Software Engineer";
 $("name").textContent = "Hi, I’m " + P.name + ".";
 $("tagline").textContent = P.tagline;
@@ -187,6 +190,7 @@ $("contactLinks").replaceChildren(
 
 // Interactive terminal
 const tout = $("tout"), tin = $("tin");
+$("prompt").textContent = PROMPT;
 const CMDS = {
   help: () => "Commands: " + Object.keys(CMDS).join(", "),
   about: () => P.name + "\n" + P.tagline,
@@ -203,7 +207,7 @@ function run(raw){
   if (!c) return;
   if (c === "clear") { tout.replaceChildren(); return; }
   const known = Object.prototype.hasOwnProperty.call(CMDS, c);
-  tout.append(el("div", {textContent:"$ " + c, style:"font-weight:800"}));
+  tout.append(el("div", {textContent: PROMPT + " " + c, style:"font-weight:800"}));
   tout.append(el("div", {textContent: known ? CMDS[c]() : "Command not found: " + c + ". Type help to see what I can do."}));
   tout.scrollTop = tout.scrollHeight;
 }
