@@ -7,10 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f7fb;--surface:#fff;--ink:#14172b;--muted:#5b6078;--line:#d9dcea;--accent:#2b4eff;--accent-ink:#fff;--grid:#e6e9f5;
+:root{--bg:#10142a;--surface:#181d3a;--ink:#eef0ff;--muted:#a3a9cc;--line:#2b3157;--accent:#7f95ff;--accent-ink:#10142a;--grid:#1a2040;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10142a;--surface:#181d3a;--ink:#eef0ff;--muted:#a3a9cc;--line:#2b3157;--accent:#7f95ff;--accent-ink:#10142a;--grid:#1a2040}}
-:root[data-theme="dark"]{--bg:#10142a;--surface:#181d3a;--ink:#eef0ff;--muted:#a3a9cc;--line:#2b3157;--accent:#7f95ff;--accent-ink:#10142a;--grid:#1a2040}
+:root[data-theme="light"]{--bg:#f6f7fb;--surface:#fff;--ink:#14172b;--muted:#5b6078;--line:#d9dcea;--accent:#2b4eff;--accent-ink:#fff;--grid:#e6e9f5}
 html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -32,6 +31,12 @@ section{padding:3rem 0}
 .btn{display:inline-block;padding:.7rem 1.3rem;border-radius:.6rem;font-weight:600;text-decoration:none;border:2px solid var(--accent)}
 .btn.p{background:var(--accent);color:var(--accent-ink)}
 .btn.s{color:var(--accent);background:var(--surface)}
+.info{display:inline-block;padding:.7rem 1.3rem;border-radius:.6rem;font-weight:600;border:2px solid var(--accent);color:var(--accent);background:var(--surface);overflow-wrap:anywhere}
+.btn{cursor:pointer;box-shadow:0 3px 0 var(--accent)}
+.btn[target="_blank"]::after{content:" \2197"}
+.btn:hover{background:var(--accent);color:var(--accent-ink);transform:translateY(-3px);box-shadow:0 6px 0 var(--accent)}
+.btn:active{transform:translateY(1px);box-shadow:0 1px 0 var(--accent)}
+@media (prefers-reduced-motion:no-preference){.btn{transition:transform .15s,box-shadow .15s,background .15s,color .15s}}
 .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 1.5rem;padding:0;list-style:none}
 .chip{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:.3rem .85rem;font-size:.95rem}
 button.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
@@ -48,6 +53,12 @@ button.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink
 .tl li::before{content:"";position:absolute;left:-1.7rem;top:.55rem;width:.75rem;height:.75rem;background:var(--accent);border-radius:50%}
 .tl b{display:block}
 .tl span{color:var(--muted);font-size:.95rem}
+.term{background:var(--ink);color:var(--bg);border-left:5px solid var(--accent);border-radius:.4rem;padding:1rem 1.1rem;font:.95rem/1.55 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace}
+.tout{max-height:20rem;overflow-y:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.tout div{margin-bottom:.6rem}
+.tline{display:flex;gap:.6rem;align-items:center;margin-top:.5rem}
+.tline input{flex:1;min-width:0;background:transparent;border:0;border-bottom:1px solid var(--muted);color:inherit;font:inherit;padding:.3rem 0}
+.tline input:focus-visible{outline:2px solid var(--bg);outline-offset:3px}
 footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -55,7 +66,7 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
 <body>
 <div class="wrap">
   <nav aria-label="Main">
-    <a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#about">Experience</a><a href="#contact">Contact</a>
+    <a href="#projects">Projects</a><a href="#terminal">Terminal</a><a href="#skills">Skills</a><a href="#about">Experience</a><a href="#contact">Contact</a>
     <span class="sp"></span>
     <button class="theme" id="theme" type="button">Toggle theme</button>
   </nav>
@@ -73,6 +84,16 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
     <h2>Projects</h2>
     <ul class="chips" id="filters" aria-label="Filter projects"></ul>
     <div class="grid" id="projectGrid"></div>
+  </section>
+
+  <section id="terminal">
+    <h2>Ask my terminal</h2>
+    <p class="lede">Type a command, or tap one below, to learn more about me.</p>
+    <div class="term">
+      <div class="tout" id="tout" aria-live="polite"></div>
+      <label class="tline"><span aria-hidden="true">$</span><input id="tin" type="text" aria-label="Type a command" placeholder="type help and press Enter" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+    </div>
+    <ul class="chips" id="cmds" style="margin-top:1rem" aria-label="Commands"></ul>
   </section>
 
   <section id="skills"><h2>Skills</h2><div class="skills" id="skillGrid"></div></section>
@@ -94,8 +115,11 @@ const PROFILE = {
   name: "Lance Andrei Cruz",
   tagline: "Computer Science graduate (Software Engineering) with hands-on experience in web development, IoT and AI-assisted systems, and IT infrastructure. Open to entry-level and junior software engineering and IT roles.",
   email: "andrei10cruz@gmail.com",
-  github: "", /* add your GitHub URL here to show a GitHub button */
+  phone: "0965-904-0699",
+  phoneTel: "+639659040699",
+  github: "https://github.com/andreicruzdev",
   linkedin: "https://www.linkedin.com/in/lance-andrei-cruz-8b740038a",
+  interests: ["Hanging out with friends", "Going to the gym", "Playing video games", "Meeting new people"],
   contactText: "Based in Las Piñas City, Philippines. I'm looking for my first full-time role, so send me a message.",
   projects: [
     {title:"SenSoil AI: IoT Integrated Crop Diagnostic System", desc:"Capstone project that won Best Overall Research Project (A.Y. 2024–2025). An AI-assisted crop diagnostic system combining IoT sensors and image recognition, tracking soil moisture, temperature, humidity and nutrient levels. I designed and built the companion mobile app interface.", tags:["AI","IoT","Mobile"], demo:"", code:""},
@@ -156,14 +180,42 @@ $("timeline").replaceChildren(...P.timeline.map(t =>
 
 // Contact
 $("contactLinks").replaceChildren(
-  el("a", {className:"btn p", href:"mailto:" + P.email, textContent:"Email me"}),
-  ...(P.github ? [el("a", {className:"btn s", href:P.github, textContent:"GitHub"})] : []),
-  el("a", {className:"btn s", href:P.linkedin, textContent:"LinkedIn"}));
+  el("span", {className:"info", textContent:"Email: " + P.email}),
+  el("span", {className:"info", textContent:"Phone: " + P.phone}),
+  ...(P.github ? [el("a", {className:"btn s", href:P.github, target:"_blank", rel:"noopener noreferrer", textContent:"GitHub"})] : []),
+  el("a", {className:"btn s", href:P.linkedin, target:"_blank", rel:"noopener noreferrer", textContent:"LinkedIn"}));
+
+// Interactive terminal
+const tout = $("tout"), tin = $("tin");
+const CMDS = {
+  help: () => "Commands: " + Object.keys(CMDS).join(", "),
+  about: () => P.name + "\n" + P.tagline,
+  skills: () => Object.entries(P.skills).map(([g, i]) => g + ": " + i.join(", ")).join("\n"),
+  projects: () => P.projects.map(p => "- " + p.title).join("\n"),
+  experience: () => P.timeline.map(t => "- " + t.title + " (" + t.where + (t.when ? ", " + t.when : "") + ")").join("\n"),
+  contact: () => "Email: " + P.email + "\nPhone: " + P.phone + "\nLinkedIn: " + P.linkedin + (P.github ? "\nGitHub: " + P.github : ""),
+  hobbies: () => "A little more about me:\n" + P.interests.map(i => "- " + i).join("\n"),
+  hire: () => "Great choice. Email " + P.email + " and let's talk.",
+  clear: () => ""
+};
+function run(raw){
+  const c = raw.trim().toLowerCase();
+  if (!c) return;
+  if (c === "clear") { tout.replaceChildren(); return; }
+  const known = Object.prototype.hasOwnProperty.call(CMDS, c);
+  tout.append(el("div", {textContent:"$ " + c, style:"font-weight:800"}));
+  tout.append(el("div", {textContent: known ? CMDS[c]() : "Command not found: " + c + ". Type help to see what I can do."}));
+  tout.scrollTop = tout.scrollHeight;
+}
+tout.append(el("div", {textContent:"Hi, I'm " + P.name + ". Type help or tap a command below."}));
+$("cmds").replaceChildren(...Object.keys(CMDS).map(k =>
+  el("li", {}, [el("button", {className:"chip", type:"button", textContent:k, onclick:() => run(k)})])));
+tin.addEventListener("keydown", e => { if (e.key === "Enter") { run(tin.value); tin.value = ""; } });
 
 // Theme toggle
 $("theme").onclick = () => {
   const r = document.documentElement;
-  const dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  const dark = (r.dataset.theme || "dark") === "dark";
   r.dataset.theme = dark ? "light" : "dark";
 };
 </script>
