@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lance Andrei Cruz – Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7fb;--surface:#fff;--ink:#14172b;--muted:#5b6078;--line:#d9dcea;--accent:#2b4eff;--accent-ink:#fff;--grid:#e6e9f5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10142a;--surface:#181d3a;--ink:#eef0ff;--muted:#a3a9cc;--line:#2b3157;--accent:#7f95ff;--accent-ink:#10142a;--grid:#1a2040}}
+:root[data-theme="dark"]{--bg:#10142a;--surface:#181d3a;--ink:#eef0ff;--muted:#a3a9cc;--line:#2b3157;--accent:#7f95ff;--accent-ink:#10142a;--grid:#1a2040}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:60rem;margin:0 auto;padding:0 1.25rem}
+nav{display:flex;gap:1.25rem;align-items:center;padding:1.25rem 0;flex-wrap:wrap}
+nav a{color:var(--ink);text-decoration:none;font-weight:600}
+nav a:hover{color:var(--accent)}
+nav .sp{flex:1}
+button{font:inherit;cursor:pointer}
+.theme{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:.35rem .9rem}
+h1{font-size:clamp(2.6rem,9vw,5.5rem);line-height:1;font-weight:800;letter-spacing:-.03em;margin:3rem 0 1.25rem}
+h2{font-size:1.75rem;letter-spacing:-.02em;margin:0 0 1.25rem}
+section{padding:3rem 0}
+.lede{font-size:1.3rem;max-width:36rem;color:var(--muted);margin:0 0 1.75rem}
+.btns{display:flex;gap:.75rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.7rem 1.3rem;border-radius:.6rem;font-weight:600;text-decoration:none;border:2px solid var(--accent)}
+.btn.p{background:var(--accent);color:var(--accent-ink)}
+.btn.s{color:var(--accent);background:var(--surface)}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 1.5rem;padding:0;list-style:none}
+.chip{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:.3rem .85rem;font-size:.95rem}
+button.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1.25rem}
+.card{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);padding:1.25rem;border-radius:.4rem}
+.card h3{margin:0 0 .4rem;font-size:1.2rem}
+.card p{margin:.25rem 0 .9rem;color:var(--muted)}
+.tags{font-size:.9rem;color:var(--muted);margin-bottom:.75rem}
+.links a{margin-right:1rem;font-weight:600}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:1.25rem}
+.skills h3{margin:0 0 .5rem;font-size:1.05rem}
+.tl{border-left:3px solid var(--line);margin:0;padding:0 0 0 1.25rem;list-style:none}
+.tl li{margin-bottom:1.5rem;position:relative}
+.tl li::before{content:"";position:absolute;left:-1.7rem;top:.55rem;width:.75rem;height:.75rem;background:var(--accent);border-radius:50%}
+.tl b{display:block}
+.tl span{color:var(--muted);font-size:.95rem}
+footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav aria-label="Main">
+    <a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#about">Experience</a><a href="#contact">Contact</a>
+    <span class="sp"></span>
+    <button class="theme" id="theme" type="button">Toggle theme</button>
+  </nav>
+
+  <header>
+    <h1 id="name"></h1>
+    <p class="lede" id="tagline"></p>
+    <div class="btns">
+      <a class="btn p" href="#projects">See my projects</a>
+      <a class="btn s" id="cv" href="#contact">Get in touch</a>
+    </div>
+  </header>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <ul class="chips" id="filters" aria-label="Filter projects"></ul>
+    <div class="grid" id="projectGrid"></div>
+  </section>
+
+  <section id="skills"><h2>Skills</h2><div class="skills" id="skillGrid"></div></section>
+
+  <section id="about"><h2>Experience and education</h2><ul class="tl" id="timeline"></ul></section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p class="lede" id="contactText"></p>
+    <div class="btns" id="contactLinks"></div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+/* ===== EDIT THIS BLOCK ONLY: everything on the page comes from here ===== */
+const PROFILE = {
+  name: "Lance Andrei Cruz",
+  tagline: "Computer Science graduate (Software Engineering) with hands-on experience in web development, IoT and AI-assisted systems, and IT infrastructure. Open to junior software engineering and IT roles.",
+  email: "andrei10cruz@gmail.com",
+  github: "", /* add your GitHub URL here to show a GitHub button */
+  linkedin: "https://www.linkedin.com/in/lance-andrei-cruz-8b740038a",
+  contactText: "Based in Las Piñas City, Philippines. I'm looking for my first full-time role, so send me a message.",
+  projects: [
+    {title:"SenSoil AI: IoT Integrated Crop Diagnostic System", desc:"Capstone project that won Best Overall Research Project (A.Y. 2024–2025). An AI-assisted crop diagnostic system combining IoT sensors and image recognition, tracking soil moisture, temperature, humidity and nutrient levels. I designed and built the companion mobile app interface.", tags:["AI","IoT","Mobile"], demo:"", code:""},
+    {title:"Security Patrol Monitoring System", desc:"Internal web system built during my on-the-job training at CDC Holdings Inc. Supervisors can monitor guard patrol locations and activities, and assign and track housekeeping tasks. I helped build features and took part in testing and debugging.", tags:["Web"], demo:"", code:""},
+    {title:"CCTV and Network Setup", desc:"Installed and configured CCTV cameras across company facilities and connected them to the office network so administrators can watch live feeds from the admin office.", tags:["IT infrastructure"], demo:"", code:""}
+  ],
+  skills: {
+    "Programming languages": ["Java","Python","C++","HTML","CSS"],
+    "Development tools": ["Android Studio","Visual Studio Code","Figma","XAMPP","GitHub"],
+    "IT and technical": ["CCTV installation","Network troubleshooting","Hardware and software setup","Technical support"],
+    "AI tools": ["ChatGPT","Gemini","Claude","Prompt engineering","AI-assisted coding and research"]
+  },
+  timeline: [
+    {title:"Information Technology Trainee (On-the-Job Training)", where:"CDC Holdings Inc.", when:"OJT", note:"Helped develop an internal patrol monitoring system, tested and debugged the website, installed CCTV and network connections, and gave general IT support."},
+    {title:"B.S. in Computer Science, Major in Software Engineering", where:"Far Eastern University Alabang", when:"2022 – 2026", note:"Capstone SenSoil AI won Best Overall Research Project."},
+    {title:"Certiport IT Specialist: Python and Java", where:"Certifications", when:"", note:"Industry certifications in both programming languages."},
+    {title:"ICT, TVL Strand", where:"Saint Francis of Assisi College", when:"2020 – 2022", note:"Senior high school track in Information and Communication Technology."}
+  ]
+};
+/* ======================================================================== */
+
+const $ = id => document.getElementById(id);
+const el = (tag, props = {}, kids = []) => { const n = document.createElement(tag); Object.assign(n, props); kids.forEach(k => n.append(k)); return n; };
+const P = PROFILE;
+
+document.title = P.name + " – Software Engineer";
+$("name").textContent = "Hi, I’m " + P.name + ".";
+$("tagline").textContent = P.tagline;
+$("contactText").textContent = P.contactText;
+$("foot").textContent = "© " + new Date().getFullYear() + " " + P.name;
+
+// Projects with tag filter
+const tags = ["All", ...new Set(P.projects.flatMap(p => p.tags))];
+let active = "All";
+function renderProjects(){
+  $("filters").replaceChildren(...tags.map(t => {
+    const b = el("button", {className:"chip", type:"button", textContent:t});
+    b.setAttribute("aria-pressed", String(t === active));
+    b.onclick = () => { active = t; renderProjects(); };
+    return el("li", {}, [b]);
+  }));
+  $("projectGrid").replaceChildren(...P.projects.filter(p => active === "All" || p.tags.includes(active)).map(p => {
+    const links = el("div", {className:"links"});
+    if (p.demo) links.append(el("a", {href:p.demo, textContent:"Live demo"}));
+    if (p.code) links.append(el("a", {href:p.code, textContent:"Source code"}));
+    return el("article", {className:"card"}, [el("h3", {textContent:p.title}), el("p", {textContent:p.desc}), el("div", {className:"tags", textContent:p.tags.join(", ")}), links]);
+  }));
+}
+renderProjects();
+
+// Skills
+$("skillGrid").replaceChildren(...Object.entries(P.skills).map(([group, items]) =>
+  el("div", {}, [el("h3", {textContent:group}), el("ul", {className:"chips"}, items.map(i => el("li", {className:"chip", textContent:i})))])));
+
+// Timeline
+$("timeline").replaceChildren(...P.timeline.map(t =>
+  el("li", {}, [el("b", {textContent:t.title}), el("span", {textContent:t.when ? t.where + " · " + t.when : t.where}), el("div", {textContent:t.note})])));
+
+// Contact
+$("contactLinks").replaceChildren(
+  el("a", {className:"btn p", href:"mailto:" + P.email, textContent:"Email me"}),
+  ...(P.github ? [el("a", {className:"btn s", href:P.github, textContent:"GitHub"})] : []),
+  el("a", {className:"btn s", href:P.linkedin, textContent:"LinkedIn"}));
+
+// Theme toggle
+$("theme").onclick = () => {
+  const r = document.documentElement;
+  const dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  r.dataset.theme = dark ? "light" : "dark";
+};
+</script>
+</body>
+</html>
